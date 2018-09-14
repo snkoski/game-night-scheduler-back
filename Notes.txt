@@ -1,0 +1,16 @@
+response = RestClient::Request.execute(
+method: :get,
+url: 'https://www.boardgamegeek.com/xmlapi2/collection?username=wtfsmoke&brief=1',
+headers: {api_key: 'XXX'} <-- Only need headers if you need an API key
+)
+
+@doc = Nokogiri::XML(response) <-- can also read files and urls(?)
+name = @doc.xpath("//name") <-- name variable holds all name tags from XML in array
+
+name[0] <-- #<Nokogiri::XML::Element:0x3fc0f2c25a04 name="name" attributes=[#<Nokogiri::XML::Attr:0x3fc0f2c259a0 name="sortindex" value="1">] children=[#<Nokogiri::XML::Text:0x3fc0f2c25568 "7 Wonders Duel">]>
+
+name[0].to_s <-- "<name sortindex=\"1\">7 Wonders Duel</name>"
+
+name[0].children <-- [#<Nokogiri::XML::Text:0x3fc0f2c25568 "7 Wonders Duel">]
+
+name[0].text <-- "7 Wonders Duel"
