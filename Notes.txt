@@ -14,3 +14,25 @@ name[0].to_s <-- "<name sortindex=\"1\">7 Wonders Duel</name>"
 name[0].children <-- [#<Nokogiri::XML::Text:0x3fc0f2c25568 "7 Wonders Duel">]
 
 name[0].text <-- "7 Wonders Duel"
+
+##### Get object id for individual game lookup #####
+item = @doc.xpath("//item") <-- item variable holds all item tags from XML in array
+
+item[0].attribute('objectid').value
+
+##### Get minimum number of players for an individual game #####
+##### Can enter multiple game id's in one search #####
+response = RestClient::Request.execute(
+method: :get,
+url: 'https://www.boardgamegeek.com/xmlapi2/thing?id=173346,191189',
+headers: {api_key: 'XXX'} <-- Only need headers if you need an API key
+)
+@doc = Nokogiri::XML(response) <-- can also read files and urls(?)
+min = @doc.xpath("//minplayers") <-- min variable holds all minplayer tag info from response
+min.attribute('value').value <-- return minimum number of players for game (single game)
+min_array = min.map do |game|
+  game.attribute('value').value
+end <-- use map to get minimum players for multiple games
+
+name = @doc.xpath("//name")
+name.attribute('value').value <-- get game name from game id get request

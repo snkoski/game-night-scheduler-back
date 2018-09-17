@@ -14,6 +14,15 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  # Ignore validations for testing
+  # def change_username(new_username)
+  #   self.username = new_username
+  #   if self.save(validate: false)
+  #     render json: @user, status: :accepted
+  #   else
+  #     render json: { errors: @user.errors.full_messages }, status: :unprocessible_entity
+  #   end
+  # end
 
   def update
     @user.update(user_params)
@@ -22,6 +31,15 @@ class Api::V1::UsersController < ApplicationController
     else
       render json: { errors: @user.errors.full_messages }, status: :unprocessible_entity
     end
+  end
+
+  def get_games
+    
+    byebug
+  end
+
+  def get_user_games
+    User.get_users_games(name)
   end
 
   private

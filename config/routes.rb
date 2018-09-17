@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :games, only: [:index, :update, :create]
       post '/login', to: 'auth#create'
       get '/reauth', to: 'auth#show'
+      post '/get_games', to: 'users#get_games'
     end
   end
 end
