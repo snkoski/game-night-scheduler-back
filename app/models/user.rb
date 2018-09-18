@@ -10,7 +10,7 @@ class User < ApplicationRecord
   def games_hash(bgg_username)
     games_hash = {}
     loop do
-      response = RestClient.get("https://www.boardgamegeek.com/xmlapi2/collection?username=#{bgg_username}&brief=1")
+      response = RestClient.get("https://www.boardgamegeek.com/xmlapi2/collection?username=#{bgg_username}&brief=1&subtype=boardgame&own=1")
       @doc = Nokogiri::XML(response)
       items_xml = @doc.xpath("//item")
         items_xml.map do |game|
@@ -28,9 +28,9 @@ class User < ApplicationRecord
 
     user_games_hash.each do |name, id|
       current_game = Game.all.find_by(name: name)
-      if !current_game
+      if !Game.all.find_by(name: name)
         new_games[name] = id
-      elsif !self.games.include?(current_game)
+      elsif !self.games.find_by(name: name)
         self.games << current_game
       end
     end
@@ -53,8 +53,10 @@ class User < ApplicationRecord
     end
 
     new_games_hash.each_value do |game|
-      new_game = Game.create(name: game[:name], min_players: game[:min], max_players: game[:max])
-      self.games << new_game
+      # if !Game.all.find_by(name: game[:name])
+        new_game = Game.create(name: game[:name], min_players: game[:min], max_players: game[:max])
+        self.games << new_game
+      # end
     end
   end
 
