@@ -1,8 +1,12 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :find_user, only: [:update]
+  before_action :find_user, only: [:update, :show, :user_games]
   def index
     @users = User.all
     render json: @users
+  end
+
+  def show
+    render json: @user
   end
 
   def create
@@ -14,16 +18,6 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  # Ignore validations for testing
-  # def change_username(new_username)
-  #   self.username = new_username
-  #   if self.save(validate: false)
-  #     render json: @user, status: :accepted
-  #   else
-  #     render json: { errors: @user.errors.full_messages }, status: :unprocessible_entity
-  #   end
-  # end
-
   def update
     @user.update(user_params)
     if @user.save
@@ -33,13 +27,8 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  def get_games
-    
-    byebug
-  end
-
-  def get_user_games
-    User.get_users_games(name)
+  def user_games
+    render json: @user.games
   end
 
   private
