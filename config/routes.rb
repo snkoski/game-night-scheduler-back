@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users, only: [:index, :update, :create, :show]
       resources :games, only: [:index, :update, :create]
+      resources :groups, only: [:index, :update, :create, :show]
       get '/users/:id/games', to: 'users#user_games'
       post '/login', to: 'auth#create'
       get '/reauth', to: 'auth#show'

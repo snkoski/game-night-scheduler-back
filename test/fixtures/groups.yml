@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  number_of_members: 1
+  regular_meeting_day: MyString
+
+two:
+  name: MyString
+  number_of_members: 1
+  regular_meeting_day: MyString
