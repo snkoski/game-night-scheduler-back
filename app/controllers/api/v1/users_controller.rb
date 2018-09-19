@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :find_user, only: [:update, :show, :user_games]
+  before_action :find_user, only: [:update, :show, :user_games, :user_groups]
   def index
     @users = User.all
     render json: @users
@@ -29,6 +29,10 @@ class Api::V1::UsersController < ApplicationController
 
   def user_games
     render json: @user.games
+  end
+
+  def user_groups
+    render json: @user.groups
   end
 
   private

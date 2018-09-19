@@ -1,5 +1,5 @@
 class Api::V1::GroupsController < ApplicationController
-  before_action :find_group, only: [:update, :show, :group_games]
+  before_action :find_group, only: [:update, :show, :group_users]
   def index
     @groups = Group.all
     render json: @groups
@@ -27,8 +27,8 @@ class Api::V1::GroupsController < ApplicationController
     end
   end
 
-  def group_games
-    render json: @group.games
+  def group_users
+    render json: @group.users
   end
 
   private
@@ -36,7 +36,7 @@ class Api::V1::GroupsController < ApplicationController
   def group_params
     params.permit(:name, :number_of_members, :regular_meeting_day)
   end
-  
+
   def find_group
     @group = Group.find(params[:id])
   end

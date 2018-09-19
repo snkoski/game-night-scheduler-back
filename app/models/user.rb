@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   has_many :user_games
   has_many :games, through: :user_games
+  has_many :user_groups
+  has_many :groups, through: :user_groups
 
   def games_hash(bgg_username)
     games_hash = {}

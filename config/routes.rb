@@ -6,9 +6,13 @@ Rails.application.routes.draw do
       resources :games, only: [:index, :update, :create]
       resources :groups, only: [:index, :update, :create, :show]
       get '/users/:id/games', to: 'users#user_games'
+      get '/users/:id/groups', to: 'users#user_groups'
+      post '/get_games', to: 'users#get_games'
+      get '/groups/:id/users', to: 'groups#group_users'
       post '/login', to: 'auth#create'
       get '/reauth', to: 'auth#show'
-      post '/get_games', to: 'users#get_games'
+
+
     end
   end
 end
