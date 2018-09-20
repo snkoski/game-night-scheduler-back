@@ -21,8 +21,6 @@ class User < ApplicationRecord
     new_game_ids_array = new_games.keys
     new_game_ids_string = new_game_ids_array.join(',')
     response = get_games_xml(new_game_ids_string)
-    # item = get_xml_tag(response, "item")
-    # name = get_xml_tag(response, "name")
     id = get_xml_tag(response, "item")
     min = get_xml_tag(response, "minplayers")
     max = get_xml_tag(response, "maxplayers")
@@ -110,7 +108,8 @@ class User < ApplicationRecord
       end
       new_games_hash[games_array[i]] = {
 
-        name: new_games[id[i].attribute('id').value][:name],
+        # name: new_games[id[i].attribute('id').value][:name],
+        name: id[i].children[5].attribute('value').text,
         bgg_id: id[i].attribute('id').value,
         min: min[i].attribute('value').value.to_i,
         max: max[i].attribute('value').value.to_i,
