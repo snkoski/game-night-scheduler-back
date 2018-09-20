@@ -31,6 +31,7 @@ class User < ApplicationRecord
     play_time = get_xml_tag(response, "playingtime")
     description = get_xml_tag(response, "description")
     new_games_hash = get_new_games_hash(new_game_ids_array, new_games, id, min, max, thumbnail, image, play_time, description)
+    # return new_games_hash
     create_and_add_new_games(new_games_hash)
   end
 
@@ -103,8 +104,12 @@ class User < ApplicationRecord
   def get_new_games_hash(games_array, new_games, id, min, max, thumbnail, image, play_time, description)
     new_games_hash = {}
     games_array.each_index do |i|
+      # puts new_games[id[i].attribute('id').value][:name]
+      if !thumbnail[i] || !image
+        next
+      end
       new_games_hash[games_array[i]] = {
-        # name: name[i].attribute('value').text,
+
         name: new_games[id[i].attribute('id').value][:name],
         bgg_id: id[i].attribute('id').value,
         min: min[i].attribute('value').value.to_i,
