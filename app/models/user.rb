@@ -39,7 +39,7 @@ class User < ApplicationRecord
   def games_hash(bgg_username)
     games_hash = {}
     loop do
-      response = RestClient.get("https://www.boardgamegeek.com/xmlapi2/collection?username=#{bgg_username}&brief=1&subtype=boardgame&own=1")
+      response = RestClient.get("https://www.boardgamegeek.com/xmlapi2/collection?username=#{bgg_username}&brief=1&subtype=boardgame&own=1&excludesubtype=boardgameexpansion")
       @doc = Nokogiri::XML(response)
       items_xml = @doc.xpath("//item")
         items_xml.map do |game|
@@ -125,7 +125,7 @@ class User < ApplicationRecord
 
   def create_and_add_new_games(new_games_hash)
     new_games_hash.each_value do |game|
-        new_game = Game.create(name: game[:name], bgg_id: game[:bgg_id], min_players: game[:min], max_players: game[:max], thumbnail: game[:thumbnail], image: game[:image], play_time: game[:play_time], description: game[:description])
+        new_game = Game.create(name: game[:name], bgg_id: game[:bgg_id], min_players: game[:min], max_players: game[:max], thumbnail: game[:thumbnail], image: game[:image], play_time: game[:play_time], description: game[:description], expansion: false)
         self.games << new_game
       end
   end
