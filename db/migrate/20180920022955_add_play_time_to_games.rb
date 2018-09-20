@@ -1,0 +1,5 @@
+class AddPlayTimeToGames < ActiveRecord::Migration[5.2]
+  def change
+    add_column :games, :play_time, :integer
+  end
+end
