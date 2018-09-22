@@ -116,7 +116,7 @@ class User < ApplicationRecord
         thumbnail: thumbnail[i].children.text,
         image: image[i].children.text,
         play_time: play_time[i].attribute('value').value.to_i,
-        description: description[i].children.text
+        description: self.remove_unicode(description[i].children.text)
       }
     end
     return new_games_hash
@@ -128,4 +128,15 @@ class User < ApplicationRecord
         self.games << new_game
       end
   end
+
+  def remove_unicode(string)
+    map = {'&#10;' => ' ', '&quot;' => '"', '&rdquo;' => '"', '&ldquo;' => '"', '&rsquo;' => '\'', '&#226;&#128;&#147;' => '-', '&mdash;' => '-', '&ndash;' => '-', '&#195;&#137;' => 'É', '&eacute;' => 'é', '&#195;&#169;' => 'é', '&amp;' => '&', '&trade;' => '™', '&#9;' => '', '&shy;' => '', '&gt;' => '>', '&lsquo;' => '‘', '&aacute;' => 'á', '&times;' => '×', '&uml;' => '¨', '&reg;' => '®', '&auml;' => 'ä', '&uuml;' => 'ü', '&plusmn;' => '±', '&bull;' => '•', '&ccedil;' => 'ç', '&agrave;' => 'à', '&ecirc;' => 'ê', '&egrave;' => 'è', '&#195;&#156;' => 'Ü', '&Uuml;' => 'Ü', '&#226;&#132;&#150;' => '№', '&#195;&#145;' => 'Ñ', '&#195;&#188;' => 'ü', '&#229;&#156;&#141;' => '圍', '&#230;&#163;&#139;' => '棋', '&iacute;' => 'í', '&ocirc;' => 'ô', '&frac12;' => '½', '&frac14;' => '¼', '&deg;' => '°', '&#195;&#188;' => 'ü', '&#197;&#141;' => 'ō', '&infin;' => '∞', '&ntilde;' => 'ñ', '&hellip;' => '…', '&#226;&#133;&#157;' => '⅝', '&#226;&#128;&#139;' => '', '&#195;&#167;' => 'ç', '&#195;&#163;' => 'ã', '&ucirc;' => 'û', '&asymp;' => '≈', '&Egrave;' => 'È'}
+
+    re = Regexp.new(map.keys.map { |x| Regexp.escape(x) }.join('|'))
+
+    no_unicode_string = string.gsub(re, map)
+
+    return no_unicode_string
+  end
+
 end
