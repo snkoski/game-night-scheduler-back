@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :find_user, only: [:update, :show, :user_games, :user_groups, :sync_user_games]
+  before_action :find_user, only: [:update, :show, :user_games, :user_groups, :sync_user_games, :join_group]
   def index
     @users = User.all
     render json: @users
@@ -40,10 +40,20 @@ class Api::V1::UsersController < ApplicationController
     render json: @user.games
   end
 
+  def join_group
+    # byebug
+    group = Group.find(params[:group_id])
+    # byebug
+    group.number_of_members += 1
+    @user.groups << group
+    group.save
+    render json: @user
+  end
+
   private
 
   def user_params
-    params.permit(:username, :email, :password, :bgg_username)
+    params.permit(:username, :email, :password, :bgg_username, :group_id)
   end
 
   def find_user

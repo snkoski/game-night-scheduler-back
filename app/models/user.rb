@@ -1,13 +1,15 @@
 class User < ApplicationRecord
-  has_secure_password
-  validates :email, presence: true, length: { maximum: 255 }, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }
-  validates :username, presence: true, length: {maximum: 64 }
-  validates :password, presence: true, length: {minimum: 6, maximum: 128 }
-
   has_many :user_games
   has_many :games, through: :user_games
   has_many :user_groups
   has_many :groups, through: :user_groups
+  has_many :friendships
+  has_many :friends, through: :friendships
+
+  has_secure_password
+  validates :email, presence: true, length: { maximum: 255 }, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }#, uniqueness: true
+  validates :username, presence: true, length: {maximum: 64 }, uniqueness: { case_sensitive: false }
+  validates :password, presence: true, length: {minimum: 6, maximum: 128 }
 
   # Skip validations so you can change username for testing
   def change_username(new_username)
@@ -62,34 +64,6 @@ class User < ApplicationRecord
     return new_games
   end
 
-
-  # def games_hash(bgg_username)
-  #   games_hash = {}
-  #   loop do
-  #     response = RestClient.get("https://www.boardgamegeek.com/xmlapi2/collection?username=#{bgg_username}&brief=1&subtype=boardgame&own=1")
-  #     @doc = Nokogiri::XML(response)
-  #     items_xml = @doc.xpath("//item")
-  #       items_xml.map do |game|
-  #       games_hash[game.children.children.text] = game.attribute('objectid').value
-  #     end
-  #     break if games_hash.length > 0
-  #   end
-  #   return games_hash
-  # end
-
-  # def check_for_new_games(all_games_hash)
-  #   new_games = {}
-  #   all_games_hash.each do |name, id|
-  #     current_game = Game.all.find_by(name: name)
-  #     if !current_game
-  #       new_games[name] = id
-  #     elsif !self.games.find_by(name: name)
-  #       self.games << current_game
-  #     end
-  #   end
-  #   return new_games
-  # end
-
   def get_games_xml(game_ids_string)
     return RestClient.get("https://www.boardgamegeek.com/xmlapi2/thing?id=" + game_ids_string)
   end
@@ -108,7 +82,6 @@ class User < ApplicationRecord
       end
       new_games_hash[games_array[i]] = {
 
-        # name: new_games[id[i].attribute('id').value][:name],
         name: id[i].children[5].attribute('value').text,
         bgg_id: id[i].attribute('id').value,
         min: min[i].attribute('value').value.to_i,
