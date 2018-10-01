@@ -1,2 +1,0 @@
-class NightsController < ApplicationController
-end
