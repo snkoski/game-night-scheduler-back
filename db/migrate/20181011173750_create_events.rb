@@ -1,9 +1,10 @@
-class CreateNights < ActiveRecord::Migration[5.2]
+class CreateEvents < ActiveRecord::Migration[5.2]
   def change
-    create_table :nights do |t|
+    create_table :events do |t|
       t.string :name
       t.date :date
       t.time :time
+      t.integer :created_by
 
       t.timestamps
     end

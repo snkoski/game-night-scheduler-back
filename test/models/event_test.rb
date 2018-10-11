@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::NightsControllerTest < ActionDispatch::IntegrationTest
+class EventTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

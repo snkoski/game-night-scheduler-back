@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       end
       resources :games, only: [:index, :update, :create]
       resources :groups, only: [:index, :update, :create, :show]
+      resources :events, only: [:index, :update, :create, :show]
       resources :friendships, only: [:create, :destroy]
       get '/users/:id/games', to: 'users#user_games'
       get '/users/:id/groups', to: 'users#user_groups'
