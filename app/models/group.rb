@@ -1,6 +1,7 @@
 class Group < ApplicationRecord
   has_many :user_groups
   has_many :users, through: :user_groups
+  has_many :events
 
   def add_user(user_id)
     user  = User.find(user_id)
