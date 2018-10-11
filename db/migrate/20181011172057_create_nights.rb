@@ -1,6 +1,6 @@
-class CreateGameNights < ActiveRecord::Migration[5.2]
+class CreateNights < ActiveRecord::Migration[5.2]
   def change
-    create_table :game_nights do |t|
+    create_table :nights do |t|
       t.string :name
       t.date :date
       t.time :time

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class GameNightTest < ActiveSupport::TestCase
+class NightTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

@@ -1,2 +1,0 @@
-class GameNight < ApplicationRecord
-end
