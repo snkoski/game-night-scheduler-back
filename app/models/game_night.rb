@@ -1,0 +1,2 @@
+class GameNight < ApplicationRecord
+end
