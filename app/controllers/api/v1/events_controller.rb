@@ -1,9 +1,19 @@
 class Api::V1::EventsController < ApplicationController
   before_action :find_event, only: [:update, :show]
+  # def index
+  #   @events = Event.all
+  #   render json: @events
+  # end
+
   def index
+  if params[:group_id]
+    @events = Group.find(params[:group_id]).events
+    render json: @events
+  else
     @events = Event.all
     render json: @events
   end
+end
 
   def show
     render json: @event
