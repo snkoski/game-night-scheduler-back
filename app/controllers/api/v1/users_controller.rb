@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :find_user, only: [:update, :show, :user_games, :user_groups, :sync_user_games, :join_group]
+  before_action :find_user, only: [:update, :show, :user_games, :user_groups, :user_events, :sync_user_games, :join_group, :join_event]
   def index
     @users = User.all
     render json: @users
@@ -35,6 +35,10 @@ class Api::V1::UsersController < ApplicationController
     render json: @user.groups
   end
 
+  def user_events
+    render json: @user.events
+  end
+
   def sync_user_games
     @user.sync_games(params['bgg_username'])
     render json: @user.games
@@ -47,6 +51,12 @@ class Api::V1::UsersController < ApplicationController
     group.number_of_members += 1
     @user.groups << group
     group.save
+    render json: @user
+  end
+
+  def join_event
+    event = Event.find(params[:event_id])
+    @user.events << event
     render json: @user
   end
 
