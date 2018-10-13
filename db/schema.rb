@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 2018_10_13_045341) do
     t.integer "group_id"
     t.string "location"
     t.integer "max_users"
-    t.integer "current_users"
+    t.integer "current_users", default: 0
   end
 
   create_table "games", force: :cascade do |t|

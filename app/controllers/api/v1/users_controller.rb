@@ -56,8 +56,14 @@ class Api::V1::UsersController < ApplicationController
 
   def join_event
     event = Event.find(params[:event_id])
-    @user.events << event
-    render json: @user
+    if event.current_users < event.max_users
+      event.current_users += 1
+      event.save
+      @user.events << event
+      render json: @user
+    else
+      render json: { errors: @user.errors.full_messages }, status: :unprocessible_entity
+    end
   end
 
   private

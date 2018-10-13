@@ -22,6 +22,7 @@ end
   def create
     user = User.find(params[:created_by])
     @event = Event.new(event_params)
+    @event.current_users += 1
     if @event.save
       @event.users << user
       render json: @event, status: :accepted
@@ -50,7 +51,7 @@ end
   private
 
   def event_params
-    params.permit(:name, :date, :time, :created_by, :group_id)
+    params.permit(:name, :date, :time, :created_by, :group_id, :location, :max_users, :current_users)
   end
 
   def find_event
