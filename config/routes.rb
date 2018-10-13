@@ -6,9 +6,9 @@ Rails.application.routes.draw do
         resources :friendships
       end
       resources :groups, only: [:index, :update, :create, :show] do
-        resources :events
+        resources :events, except: [:update, :destroy]
       end
-      resources :events
+      resources :events, only: [:update, :destroy]
       resources :games, only: [:index, :update, :create]
       # resources :events, only: [:index, :update, :create, :show]
       resources :friendships, only: [:create, :destroy]
