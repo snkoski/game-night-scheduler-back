@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       resources :groups, only: [:index, :update, :create, :show] do
         resources :events, except: [:update, :destroy]
       end
-      resources :events, only: [:update, :destroy]
+      resources :events, only: [:index, :update, :destroy]
       resources :games, only: [:index, :update, :create]
       # resources :events, only: [:index, :update, :create, :show]
       resources :friendships, only: [:create, :destroy]
@@ -18,6 +18,9 @@ Rails.application.routes.draw do
       post '/users/:id/join_group', to: 'users#join_group'
       post '/users/:id/join_event', to: 'users#join_event'
       post '/users/:id/sync', to: 'users#sync_user_games'
+      get '/events/:id/games', to: 'events#event_games'
+      post '/events/:id/add_game', to: 'events#add_game'
+      get '/events/:id/votes', to: 'events#event_votes'
 
       get '/users/:id/friends', to: 'friendships#get_user_friends'
       get '/groups/:id/users', to: 'groups#group_users'

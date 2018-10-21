@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :friends, through: :friendships
   has_many :user_events
   has_many :events, through: :user_events
+  has_many :votes
 
   has_secure_password
   validates :email, presence: true, length: { maximum: 255 }, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }#, uniqueness: true

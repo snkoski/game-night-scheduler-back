@@ -3,6 +3,9 @@ class Game < ApplicationRecord
 
   has_many :user_games
   has_many :users, through: :user_games
+  has_many :votes
+  has_many :event_games
+  has_many :events, through: :event_games
 
   # def get_number_of_players(game_id)
   #   response = RestClient.get("https://www.boardgamegeek.com/xmlapi2/thing?id=#{game_id}")

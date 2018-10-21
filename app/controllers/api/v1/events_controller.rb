@@ -1,5 +1,5 @@
 class Api::V1::EventsController < ApplicationController
-  before_action :find_event, only: [:update, :show, :destroy, :event_users]
+  before_action :find_event, only: [:update, :show, :destroy, :event_users, :event_games, :add_game, :event_votes]
   # def index
   #   @events = Event.all
   #   render json: @events
@@ -48,10 +48,25 @@ end
     render json: @event.users
   end
 
+  def add_game
+    game = Game.find(params[:game_id])
+    @event.games << game
+    render json: @event
+  end
+
+  def event_games
+    render json: @event.games
+  end
+
+  def event_votes
+    votes = @event.votes
+    render json: votes
+  end
+
   private
 
   def event_params
-    params.permit(:name, :date, :time, :created_by, :group_id, :location, :max_users, :current_users)
+    params.permit(:name, :date, :time, :created_by, :group_id, :location, :max_users, :current_users, :description)
   end
 
   def find_event
