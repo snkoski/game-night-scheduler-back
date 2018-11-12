@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :users, only: [:index, :update, :create, :show] do
-        resources :friendships
+        # resources :friendships
       end
       resources :groups, only: [:index, :update, :create, :show] do
         resources :events, except: [:update, :destroy]
@@ -22,7 +22,7 @@ Rails.application.routes.draw do
       post '/events/:id/add_game', to: 'events#add_game'
       get '/events/:id/votes', to: 'events#event_votes'
 
-      get '/users/:id/friends', to: 'friendships#get_user_friends'
+      # get '/users/:id/friends', to: 'friendships#get_user_friends'
       get '/groups/:id/users', to: 'groups#group_users'
       get '/events/:id/users', to: 'events#event_users'
       post '/login', to: 'auth#create'
