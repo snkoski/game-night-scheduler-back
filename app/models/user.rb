@@ -3,8 +3,8 @@ class User < ApplicationRecord
   has_many :games, through: :user_games
   has_many :user_groups
   has_many :groups, through: :user_groups
-  has_many :friendships
-  has_many :friends, through: :friendships
+  # has_many :friendships
+  # has_many :friends, through: :friendships
   has_many :user_events
   has_many :events, through: :user_events
   has_many :votes
@@ -39,6 +39,7 @@ class User < ApplicationRecord
   end
 
   # private
+  
   def games_hash(bgg_username)
     games_hash = {}
     loop do
